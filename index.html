@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新年祝福</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #222;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .blessing {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffffff;
+            z-index: 10;
+            text-align: center;
+        }
+        /* 雪花动画 */
+        .snowflake {
+            position: absolute;
+            color: #ffffff;
+            animation: snow 2026-01-19;
+            z-index: 5;
+        }
+        @keyframes snow {
+            0% {
+                top: -10px;
+                transform: initial;
+            }
+            100% {
+                top: 100vh;
+                transform: translateX(50px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="blessing">愿新年，胜旧年<br>岁岁常欢愉，年年皆胜意</div>
+    <script>
+        // 生成雪花
+        function createSnowflake() {
+            const snowflake = document.createElement("div");
+            snowflake.classList.add("snowflake");
+            snowflake.textContent = "❄️";
+            snowflake.style.left = `${Math.random() * 100}vw`;
+            snowflake.style.animationDuration = `${Math.random() * 10 + 5}s`;
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = `${Math.random() * 10 + 5}px`;
+            document.body.appendChild(snowflake);
+            // 移除雪花
+            setTimeout(() => snowflake.remove(), 15000);
+        }
+        setInterval(createSnowflake, 200);
+    </script>
+</body>
+</html>
