@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026新年快乐 万事顺遂 🧨</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(120deg, #8B0000, #FF4500, #FF8C00, #FFD700);
+            background-size: 300% 300%;
+            animation: bgMove 15s ease infinite;
+            font-family: "微软雅黑", "华文行楷", sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            position: relative;
+            cursor: pointer;
+        }
+        @keyframes bgMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .title {
+            font-size: 4.5rem;
+            text-shadow: 0 0 10px #fff, 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff8800, 0 0 70px #ff8800;
+            margin-bottom: 20px;
+            animation: neonFlash 2s linear infinite alternate;
+            z-index: 10;
+        }
+        @keyframes neonFlash {
+            from { text-shadow: 0 0 5px #fff, 0 0 10px #ff0000, 0 0 20px #ff0000; }
+            to { text-shadow: 0 0 20px #fff, 0 0 40px #ff0000, 0 0 60px #ff0000, 0 0 80px #ffd700; }
+        }
+        .blessing {
+            font-size: 1.8rem;
+            line-height: 2;
+            text-align: center;
+            padding: 30px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px #ff0000;
+            z-index: 10;
+            margin-bottom: 30px;
+        }
+        .control-box {
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+        .control-btn {
+            padding: 10px 20px;
+            background: #ff2200;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px #ff2200;
+        }
+        .control-btn:hover {
+            background: #ffd700;
+            color: #000;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #ffd700;
+        }
+        .tip-text{
+            position: fixed;
+            bottom: 20px;
+            font-size: 1rem;
+            opacity: 0.8;
+            z-index: 10;
+        }
+        .firework, .ribbon {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">2026新年快乐 🧨</div>
+    <div class="blessing">
+        岁岁常欢愉，年年皆胜意<br>
+        龙辞旧岁，蛇启新章 ✨<br>
+        愿新年，胜旧年，有趣有盼，无灾无难<br>
+        所求皆如愿，所行皆坦途，多喜乐，长安宁<br>
+        暴富暴美，平安喜乐，万事顺意，阖家安康 🧧
+    </div>
+    <div class="control-box">
+        <button class="control-btn" id="musicBtn">暂停背景音乐 🎵</button>
+        <button class="control-btn" id="volumeBtn">减小音量 🔊</button>
+    </div>
+    <div class="tip-text">✨ 点击页面任意位置 → 放烟花+听鞭炮声 ✨</div>
+
+    <!-- 新年背景音乐【双源备份，必能播放】 -->
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/08/audio_7878f60728.mp3?filename=chinese-new-year-131021.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-chinese-new-year-celebration-1397.mp3" type="audio/mpeg">
+    </audio>
+    <!-- 鞭炮音效 -->
+    <audio id="firecrackerAudio">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-firecracker-explosion-1990.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // 获取音频和按钮元素
+        const bgMusic = document.getElementById('bgMusic');
+        const firecrackerAudio = document.getElementById('firecrackerAudio');
+        const musicBtn = document.getElementById('musicBtn');
+        const volumeBtn = document.getElementById('volumeBtn');
+        let isPlay = true;
+        let volumeVal = 0.8; // 默认音量80%
+        bgMusic.volume = volumeVal;
+        firecrackerAudio.volume = volumeVal;
+
+        // ========== 核心修复：点击网页任意位置 初始化播放音乐 ==========
+        document.addEventListener('click', () => {
+            // 首次点击自动播放背景音乐，解决浏览器限制
+            if(bgMusic.paused){
+                bgMusic.play().catch(err=>{});
+            }
+        }, { once: true }); // 只执行一次，避免重复触发
+
+        // 背景音乐暂停/播放切换
+        musicBtn.addEventListener('click', () => {
+            if (isPlay) {
+                bgMusic.pause();
+                musicBtn.innerHTML = '播放背景音乐 🎵';
+            } else {
+                bgMusic.play();
+                musicBtn.innerHTML = '暂停背景音乐 🎵';
+            }
+            isPlay = !isPlay;
+        });
+
+        // 音量调节按钮
+        volumeBtn.addEventListener('click', () => {
+            volumeVal = volumeVal <= 0.2 ? 1 : volumeVal - 0.2;
+            bgMusic.volume = volumeVal;
+            firecrackerAudio.volume = volumeVal;
+            volumeBtn.innerHTML = volumeVal === 1 ? "最大音量 🔊" : `音量${(volumeVal*10).toFixed(0)}0% 🔊`;
+        });
+
+        // ========== 飘落新年彩带 ==========
+        function createRibbon() {
+            const colors = ['#FFD700', '#FF2200', '#FFFFFF', '#FF8C00', '#8B0000'];
+            const ribbon = document.createElement('div');
+            ribbon.className = 'ribbon';
+            ribbon.style.left = `${Math.random() * 100}vw`;
+            ribbon.style.width = `${Math.random() * 3 + 1}px`;
+            ribbon.style.height = `${Math.random() * 100 + 80}px`;
+            ribbon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            ribbon.style.borderRadius = '3px';
+            ribbon.style.animation = `fall ${Math.random() * 8 + 6}s linear infinite`;
+            document.body.appendChild(ribbon);
+            document.styleSheet = document.styleSheet || (document.head.appendChild(document.createElement("style")).sheet);
+            document.styleSheet.insertRule(`@keyframes fall {0% {transform: translateY(-100px) rotate(0deg); opacity: 1;} 100% {transform: translateY(100vh) rotate(360deg); opacity: 0;}}`, 0);
+            setTimeout(() => ribbon.remove(), 15000);
+        }
+        setInterval(createRibbon, 180);
+
+        // ========== 烟花+鞭炮 联动特效 ==========
+        function createFirework(x = Math.random() * window.innerWidth, y = Math.random() * window.innerHeight) {
+            // 播放鞭炮声
+            firecrackerAudio.currentTime = 0; // 重置播放起点，连续点击也能响
+            firecrackerAudio.play().catch(err=>{});
+            
+            const colors = ['#fff', '#ff0000', '#ffd700', '#ff8800', '#ff2200'];
+            const fireworkCount = 60;
+            for (let i = 0; i < fireworkCount; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = `${x}px`;
+                firework.style.top = `${y}px`;
+                firework.style.width = `${Math.random() * 4 + 1}px`;
+                firework.style.height = `${Math.random() * 4 + 1}px`;
+                firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                firework.style.borderRadius = '50%';
+                const angle = (i / fireworkCount) * Math.PI * 2;
+                const speed = Math.random() * 6 + 3;
+                firework.style.animation = `fireworkBlast ${Math.random() * 2 + 1}s linear forwards`;
+                firework.style.transform = `translate(${Math.cos(angle) * speed * 10}px, ${Math.sin(angle) * speed * 10}px)`;
+                document.body.appendChild(firework);
+                setTimeout(() => firework.remove(), 2000);
+            }
+        }
+        document.styleSheet.insertRule(`@keyframes fireworkBlast {0% {opacity: 1; transform: scale(1);} 100% {opacity: 0; transform: scale(4);}}`, 1);
+        setInterval(() => createFirework(), 1200);
+        document.addEventListener('click', (e) => createFirework(e.clientX, e.clientY));
+
+        // 窗口适配
+        window.addEventListener('resize', () => {
+            document.body.style.width = `${window.innerWidth}px`;
+            document.body.style.height = `${window.innerHeight}px`;
+        });
+    </script>
+</body>
+</html>
