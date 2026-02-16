@@ -1,208 +1,447 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026新年快乐 万事顺遂 🧨</title>
+    <title>新春大吉 · 红火祝福</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', '华文楷体', 'Microsoft YaHei', 楷体,  cursive, sans-serif;
+        }
+
         body {
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            background: linear-gradient(120deg, #8B0000, #FF4500, #FF8C00, #FFD700);
-            background-size: 300% 300%;
-            animation: bgMove 15s ease infinite;
-            font-family: "微软雅黑", "华文行楷", sans-serif;
+            min-height: 100vh;
+            background: #9f1a1a;  /* 深红底 */
+            background: radial-gradient(circle at 10% 30%, #d32f2f, #a51d1d);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #fff;
+            padding: 20px;
             position: relative;
-            cursor: pointer;
+            overflow-x: hidden;
+            animation: bgPulse 6s infinite alternate ease-in-out;
         }
-        @keyframes bgMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+
+        @keyframes bgPulse {
+            0% { background: radial-gradient(circle at 10% 30%, #c62828, #8b1a1a); }
+            100% { background: radial-gradient(circle at 90% 70%, #e53935, #a02020); }
         }
-        .title {
-            font-size: 4.5rem;
-            text-shadow: 0 0 10px #fff, 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff8800, 0 0 70px #ff8800;
-            margin-bottom: 20px;
-            animation: neonFlash 2s linear infinite alternate;
-            z-index: 10;
-        }
-        @keyframes neonFlash {
-            from { text-shadow: 0 0 5px #fff, 0 0 10px #ff0000, 0 0 20px #ff0000; }
-            to { text-shadow: 0 0 20px #fff, 0 0 40px #ff0000, 0 0 60px #ff0000, 0 0 80px #ffd700; }
-        }
-        .blessing {
-            font-size: 1.8rem;
-            line-height: 2;
-            text-align: center;
-            padding: 30px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
-            border: 2px solid #fff;
-            box-shadow: 0 0 20px #ff0000;
-            z-index: 10;
-            margin-bottom: 30px;
-        }
-        .control-box {
-            display: flex;
-            gap: 15px;
-            z-index: 100;
-        }
-        .control-btn {
-            padding: 10px 20px;
-            background: #ff2200;
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 10px #ff2200;
-        }
-        .control-btn:hover {
-            background: #ffd700;
-            color: #000;
-            transform: scale(1.1);
-            box-shadow: 0 0 20px #ffd700;
-        }
-        .tip-text{
+
+        /* 闪烁金色星星层 */
+        .stars {
             position: fixed;
-            bottom: 20px;
-            font-size: 1rem;
-            opacity: 0.8;
-            z-index: 10;
-        }
-        .firework, .ribbon {
-            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff9b0;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            box-shadow: 0 0 12px 3px #ffd966;
+            opacity: 0.6;
+            animation: twinkle 3s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.5); background: #ffee88; box-shadow: 0 0 20px 6px #ffbf00; }
+        }
+
+        /* 飘落的金元宝/铜钱特效（象征祝福满满） */
+        .floating-coins {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .coin {
+            position: absolute;
+            color: #ffd966;
+            font-size: 2rem;
+            opacity: 0.6;
+            filter: drop-shadow(0 0 6px gold);
+            animation: fall linear infinite;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-20vh) rotate(0deg);
+                opacity: 0.3;
+            }
+            80% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(120vh) rotate(360deg);
+                opacity: 0.1;
+            }
+        }
+
+        /* 主卡片——所有祝福语 */
+        .greeting-card {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 235, 200, 0.1);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 3px solid #ffc107;
+            border-radius: 70px 20px 70px 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 0 8px #b1310e inset, 0 0 30px #ffb347;
+            padding: 40px 25px;
+            transition: 0.4s;
+        }
+
+        .greeting-card:hover {
+            box-shadow: 0 30px 60px #3f0000, 0 0 0 10px #f9a825 inset, 0 0 50px #ff4500;
+            transform: scale(1.01);
+        }
+
+        /* 大标题 */
+        .main-title {
+            text-align: center;
+            font-size: 4rem;
+            font-weight: 800;
+            color: #fff2b5;
+            text-shadow: 6px 6px 0 #b6430e, 12px 12px 20px #440000, 0 0 30px #ffcc00;
+            letter-spacing: 8px;
+            margin-bottom: 30px;
+            word-break: keep-all;
+            animation: titleGlow 2s infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { text-shadow: 6px 6px 0 #b6430e, 0 0 20px #ffee99; }
+            to { text-shadow: 10px 10px 0 #8b2d00, 0 0 45px #fff3b0; }
+        }
+
+        /* 副标题/小引 */
+        .subhead {
+            text-align: center;
+            font-size: 1.9rem;
+            color: #ffd966;
+            margin-bottom: 45px;
+            background: #a81c1c70;
+            padding: 15px 10px;
+            border-radius: 100px;
+            border-left: 8px solid gold;
+            border-right: 8px solid gold;
+            font-style: italic;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 10px 20px #5a0f0f;
+        }
+
+        /* 祝福语网格——多祝福 */
+        .bless-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px 18px;
+            margin: 40px 0 30px;
+        }
+
+        .bless-item {
+            background: #fceecaee;
+            background: linear-gradient(145deg, #fff3cf, #fad6a0);
+            border-radius: 50px 15px 50px 15px;
+            padding: 25px 15px;
+            text-align: center;
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #ac1b1b;
+            border: 4px solid #f5b342;
+            box-shadow: 8px 8px 0 #702020, 0 15px 25px black;
+            transition: 0.25s ease;
+            cursor: default;
+            backdrop-filter: blur(2px);
+            word-break: break-word;
+        }
+
+        .bless-item:hover {
+            transform: translateY(-15px) rotate(1deg);
+            background: #fff6da;
+            box-shadow: 15px 20px 0 #941d1d, 0 30px 35px #330000;
+            border-color: #ffd966;
+            color: #cc1f1f;
+        }
+
+        /* 不同尺寸的祝福，显得错落有致 */
+        .bless-item.large {
+            font-size: 2.3rem;
+            grid-column: span 2;
+        }
+
+        .bless-item.small {
+            font-size: 1.4rem;
+            padding: 20px 10px;
+        }
+
+        /* 底部大祝福条幅 */
+        .extra-bless {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px 15px;
+            margin: 50px 0 15px;
+        }
+
+        .extra-item {
+            background: #d62828;
+            border: 3px solid #ffe68f;
+            padding: 20px 35px;
+            border-radius: 80px 10px 80px 10px;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ffeecc;
+            text-shadow: 3px 3px 0 #b04000;
+            box-shadow: 0 10px 0 #892020, 0 20px 25px #2f0000;
+            transform: rotate(-1deg);
+            transition: 0.2s;
+            text-align: center;
+            flex: 1 0 auto;
+            max-width: 350px;
+        }
+
+        .extra-item:hover {
+            background: #bb2d2d;
+            transform: rotate(1deg) scale(1.05);
+            border-color: #ffbc6c;
+            box-shadow: 0 20px 0 #741212, 0 30px 40px black;
+        }
+
+        /* 计数器、祝酒词 */
+        .footer-words {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ffdbb5;
+            font-size: 1.7rem;
+            margin-top: 40px;
+            border-top: 3px dashed #f1b347;
+            padding-top: 25px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-words span {
+            background: #ad2020b8;
+            padding: 10px 25px;
+            border-radius: 40px;
+            backdrop-filter: blur(5px);
+            border: 2px solid #ffb82e;
+            font-weight: 600;
+            box-shadow: 0 10px 10px #410000;
+        }
+
+        .firework-icon {
+            font-size: 3rem;
+            filter: drop-shadow(0 0 10px orange);
+            animation: shake 1.5s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            50% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 700px) {
+            .main-title { font-size: 3rem; letter-spacing: 3px; }
+            .bless-item.large { grid-column: span 1; }
+            .extra-item { font-size: 1.6rem; padding: 15px 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="title">2026新年快乐 🧨</div>
-    <div class="blessing">
-        岁岁常欢愉，年年皆胜意<br>
-        龙辞旧岁，蛇启新章 ✨<br>
-        愿新年，胜旧年，有趣有盼，无灾无难<br>
-        所求皆如愿，所行皆坦途，多喜乐，长安宁<br>
-        暴富暴美，平安喜乐，万事顺意，阖家安康 🧧
-    </div>
-    <div class="control-box">
-        <button class="control-btn" id="musicBtn">暂停背景音乐 🎵</button>
-        <button class="control-btn" id="volumeBtn">减小音量 🔊</button>
-    </div>
-    <div class="tip-text">✨ 点击页面任意位置 → 放烟花+听鞭炮声 ✨</div>
 
-    <!-- 新年背景音乐【双源备份，必能播放】 -->
-    <audio id="bgMusic" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/08/audio_7878f60728.mp3?filename=chinese-new-year-131021.mp3" type="audio/mpeg">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-chinese-new-year-celebration-1397.mp3" type="audio/mpeg">
-    </audio>
-    <!-- 鞭炮音效 -->
-    <audio id="firecrackerAudio">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-firecracker-explosion-1990.mp3" type="audio/mpeg">
-    </audio>
+    <!-- 闪烁星星特效 (背景红色上) -->
+    <div class="stars" id="starContainer"></div>
+
+    <!-- 飘落的金币/铜钱特效 (代表财运祝福) -->
+    <div class="floating-coins" id="coinContainer"></div>
+
+    <!-- 核心祝福卡片 -->
+    <div class="greeting-card">
+
+        <div class="main-title">🧧 新 春 大 吉 🧧</div>
+        <div class="subhead">✦ 金 蛇 纳 福 · 红 运 当 头 ✦</div>
+
+        <!-- 多祝福语网格 (一共12条以上) -->
+        <div class="bless-grid">
+            <div class="bless-item large">🏮 岁岁平安 如意吉祥</div>
+            <div class="bless-item">🎋 事业腾飞 步步高升</div>
+            <div class="bless-item small">🧧 财源滚滚 八方来财</div>
+            <div class="bless-item">🍊 大吉大利 万事顺遂</div>
+            <div class="bless-item">🐉 龙马精神 身体健康</div>
+            <div class="bless-item large">✨ 心想事成 美梦成真</div>
+            <div class="bless-item small">🌺 桃花旺盛 姻缘美满</div>
+            <div class="bless-item">🏡 阖家团圆 幸福安康</div>
+            <div class="bless-item">🎊 喜气洋洋 福星高照</div>
+            <div class="bless-item large">💎 金玉满堂 富贵盈门</div>
+            <div class="bless-item">🏮 鸿运当头 吉星高照</div>
+            <div class="bless-item">📈 财源广进 日进斗金</div>
+            <div class="bless-item small">🎐 平安喜乐 诸事顺遂</div>
+            <div class="bless-item">🍎 岁岁年年 万喜万般宜</div>
+            <div class="bless-item large">🌟 前程似锦 未来可期</div>
+        </div>
+
+        <!-- 额外超多的祝福条幅 (再增加一组显眼的) -->
+        <div class="extra-bless">
+            <div class="extra-item">🧧 一帆风顺 · 二龙腾飞</div>
+            <div class="extra-item">🍊 三阳开泰 · 四季平安</div>
+            <div class="extra-item">🎍 五福临门 · 六六大顺</div>
+            <div class="extra-item">🐟 七星高照 · 八方来财</div>
+        </div>
+
+        <!-- 底部动态祝福语（聚集更多祝福文字） -->
+        <div class="footer-words">
+            <span>🎉 千般吉愿 · 万般胜意</span>
+            <span>🧨 旧岁千般皆如意 · 新年万事定称心</span>
+            <span>🍷 且喜且乐 · 且以永日</span>
+            <div class="firework-icon">🧨🎆✨</div>
+        </div>
+
+        <!-- 又加一条隐藏祝福 (装饰性) 以文字点缀 -->
+        <div style="text-align: center; margin-top: 30px; color: #ffe3a5; font-size: 1.5rem; border-bottom: 2px solid #ffb96e; padding-bottom: 10px;">
+            🌺 百福具臻 · 千祥云集 · 万事胜意 🌺
+        </div>
+    </div>
 
     <script>
-        // 获取音频和按钮元素
-        const bgMusic = document.getElementById('bgMusic');
-        const firecrackerAudio = document.getElementById('firecrackerAudio');
-        const musicBtn = document.getElementById('musicBtn');
-        const volumeBtn = document.getElementById('volumeBtn');
-        let isPlay = true;
-        let volumeVal = 0.8; // 默认音量80%
-        bgMusic.volume = volumeVal;
-        firecrackerAudio.volume = volumeVal;
+        (function() {
+            // ================= 1. 生成闪烁星星 (多颗，每个位置随机) =================
+            const starContainer = document.getElementById('starContainer');
+            const starCount = 80;  // 星星数量
 
-        // ========== 核心修复：点击网页任意位置 初始化播放音乐 ==========
-        document.addEventListener('click', () => {
-            // 首次点击自动播放背景音乐，解决浏览器限制
-            if(bgMusic.paused){
-                bgMusic.play().catch(err=>{});
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                // 随机位置
+                const posX = Math.random() * 100; // vw
+                const posY = Math.random() * 100; // vh
+                star.style.left = posX + '%';
+                star.style.top = posY + '%';
+
+                // 随机大小 2px ~ 7px
+                const size = 2 + Math.random() * 6;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+
+                // 随机动画延迟 让闪烁错开
+                const delay = Math.random() * 5;
+                star.style.animationDelay = delay + 's';
+
+                // 随机持续时间
+                const duration = 2 + Math.random() * 4;
+                star.style.animationDuration = duration + 's';
+
+                starContainer.appendChild(star);
             }
-        }, { once: true }); // 只执行一次，避免重复触发
 
-        // 背景音乐暂停/播放切换
-        musicBtn.addEventListener('click', () => {
-            if (isPlay) {
-                bgMusic.pause();
-                musicBtn.innerHTML = '播放背景音乐 🎵';
-            } else {
-                bgMusic.play();
-                musicBtn.innerHTML = '暂停背景音乐 🎵';
+            // ================= 2. 飘落的金币/铜钱 (增加动态祝福感) =================
+            const coinContainer = document.getElementById('coinContainer');
+            const coinSymbols = ['🧧', '💰', '🪙', '💎', '🧨', '🎋', '🍊', '🏮', '✨', '🌟', '💮', '🎁', '🧧', '💵']; // 祝福符号
+            const coinCount = 30;
+
+            for (let j = 0; j < coinCount; j++) {
+                const coin = document.createElement('div');
+                coin.className = 'coin';
+
+                // 随机选择一个符号
+                const randomIndex = Math.floor(Math.random() * coinSymbols.length);
+                coin.textContent = coinSymbols[randomIndex];
+
+                // 随机位置 (横向)
+                const startX = Math.random() * 100; // vw
+                coin.style.left = startX + '%';
+
+                // 随机大小 1.2rem ~ 3.5rem
+                const fontSize = 1.2 + Math.random() * 2.5;
+                coin.style.fontSize = fontSize + 'rem';
+
+                // 随机动画时长 6s ~ 16s 让飘落有快有慢
+                const duration = 6 + Math.random() * 15;
+                coin.style.animationDuration = duration + 's';
+
+                // 随机延迟，避免同时出现
+                const delay = Math.random() * 10;
+                coin.style.animationDelay = delay + 's';
+
+                // 微调透明度范围
+                coin.style.opacity = 0.4 + Math.random() * 0.5;
+
+                coinContainer.appendChild(coin);
             }
-            isPlay = !isPlay;
-        });
 
-        // 音量调节按钮
-        volumeBtn.addEventListener('click', () => {
-            volumeVal = volumeVal <= 0.2 ? 1 : volumeVal - 0.2;
-            bgMusic.volume = volumeVal;
-            firecrackerAudio.volume = volumeVal;
-            volumeBtn.innerHTML = volumeVal === 1 ? "最大音量 🔊" : `音量${(volumeVal*10).toFixed(0)}0% 🔊`;
-        });
+            // 小彩蛋：点击卡片任意祝福会有额外惊喜 (弹出新年祝福)
+            const card = document.querySelector('.greeting-card');
+            card.addEventListener('click', function(e) {
+                // 防止点到内部元素也触发多次（没关系）
+                const blessingList = ['恭喜发财', '万事如意', '年年有余', '福寿安康', '好运连连', '招财进宝', '日进斗金', '喜气洋洋'];
+                const randomMsg = blessingList[Math.floor(Math.random() * blessingList.length)];
+                alert('🧧 ' + randomMsg + ' 🧧');
+            });
 
-        // ========== 飘落新年彩带 ==========
-        function createRibbon() {
-            const colors = ['#FFD700', '#FF2200', '#FFFFFF', '#FF8C00', '#8B0000'];
-            const ribbon = document.createElement('div');
-            ribbon.className = 'ribbon';
-            ribbon.style.left = `${Math.random() * 100}vw`;
-            ribbon.style.width = `${Math.random() * 3 + 1}px`;
-            ribbon.style.height = `${Math.random() * 100 + 80}px`;
-            ribbon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            ribbon.style.borderRadius = '3px';
-            ribbon.style.animation = `fall ${Math.random() * 8 + 6}s linear infinite`;
-            document.body.appendChild(ribbon);
-            document.styleSheet = document.styleSheet || (document.head.appendChild(document.createElement("style")).sheet);
-            document.styleSheet.insertRule(`@keyframes fall {0% {transform: translateY(-100px) rotate(0deg); opacity: 1;} 100% {transform: translateY(100vh) rotate(360deg); opacity: 0;}}`, 0);
-            setTimeout(() => ribbon.remove(), 15000);
-        }
-        setInterval(createRibbon, 180);
-
-        // ========== 烟花+鞭炮 联动特效 ==========
-        function createFirework(x = Math.random() * window.innerWidth, y = Math.random() * window.innerHeight) {
-            // 播放鞭炮声
-            firecrackerAudio.currentTime = 0; // 重置播放起点，连续点击也能响
-            firecrackerAudio.play().catch(err=>{});
-            
-            const colors = ['#fff', '#ff0000', '#ffd700', '#ff8800', '#ff2200'];
-            const fireworkCount = 60;
-            for (let i = 0; i < fireworkCount; i++) {
-                const firework = document.createElement('div');
-                firework.className = 'firework';
-                firework.style.left = `${x}px`;
-                firework.style.top = `${y}px`;
-                firework.style.width = `${Math.random() * 4 + 1}px`;
-                firework.style.height = `${Math.random() * 4 + 1}px`;
-                firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                firework.style.borderRadius = '50%';
-                const angle = (i / fireworkCount) * Math.PI * 2;
-                const speed = Math.random() * 6 + 3;
-                firework.style.animation = `fireworkBlast ${Math.random() * 2 + 1}s linear forwards`;
-                firework.style.transform = `translate(${Math.cos(angle) * speed * 10}px, ${Math.sin(angle) * speed * 10}px)`;
-                document.body.appendChild(firework);
-                setTimeout(() => firework.remove(), 2000);
-            }
-        }
-        document.styleSheet.insertRule(`@keyframes fireworkBlast {0% {opacity: 1; transform: scale(1);} 100% {opacity: 0; transform: scale(4);}}`, 1);
-        setInterval(() => createFirework(), 1200);
-        document.addEventListener('click', (e) => createFirework(e.clientX, e.clientY));
-
-        // 窗口适配
-        window.addEventListener('resize', () => {
-            document.body.style.width = `${window.innerWidth}px`;
-            document.body.style.height = `${window.innerHeight}px`;
-        });
+            // 也可以给每个祝福语添加轻微的提示，但是否太打扰？不加alert，但保留点击卡片彩蛋即可。
+            // 如果想温和一点: 但已经加alert, 新年嘛，热闹一下
+        })();
     </script>
+
+    <!-- 额外内联样式确保金币不遮挡点击 (pointer-events已经none) 但卡片点击依然有效 -->
+    <style>
+        /* 确保金币不影响卡片交互 */
+        .floating-coins, .stars {
+            pointer-events: none;
+        }
+        /* 让卡片内部元素可以正常触发点击彩蛋 */
+        .greeting-card, .greeting-card * {
+            pointer-events: auto;   
+        }
+        /* 不过卡片整体点击可能会被飘落元素遮挡？已经设pointer-events: none，所以下面卡片可以接收到点击 */
+        body {
+            pointer-events: none; /* 让body不拦截点击，但是子元素需要重设 */
+        }
+        .greeting-card, .stars, .floating-coins {
+            pointer-events: none; /* 重新设定：星星和金币不拦截，但卡片应该可以 */
+        }
+        .greeting-card {
+            pointer-events: auto;  /* 卡片区域可以点击 */
+        }
+        /* 修复body pointer none导致的内部按钮无法点击问题，重新允许卡片内部 */
+        body * {
+            pointer-events: auto;
+        }
+        .stars, .floating-coins {
+            pointer-events: none;  /* 确保特效层不阻挡 */
+        }
+        /* 确保body原始设置不影响 */
+        body {
+            pointer-events: auto;
+        }
+        /* 微调卡片hover依然顺畅 */
+    </style>
+
+    <!-- 确保任何情况下金币层都不拦截点击，已在上方修复 -->
 </body>
 </html>
